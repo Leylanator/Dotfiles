@@ -1,0 +1,4 @@
+The items here simply go into your user directory.
+Such as:
+~/
+/home/<USERNAME>/
