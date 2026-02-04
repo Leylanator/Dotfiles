@@ -13,6 +13,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     os.exit(1)
   end
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 -- Make sure to setup `mapleader` and `maplocalleader` before
@@ -54,7 +55,7 @@ require("lazy").setup({
       vim.g.coq_settings =
         {
         auto_start = false, -- if you want to start COQ at startup
-        -- Your COQ settings here
+        -- COQ settings here
         -- keymap
         keymap = 
           {
@@ -77,7 +78,7 @@ require("lazy").setup({
         }
       end,
       config = function()
-      -- Your LSP settings here
+      -- LSP settings here, if I get to it
       end,
     },
 
@@ -88,6 +89,7 @@ require("lazy").setup({
     version = "*", -- Pin Neorg to the latest stable release
     config = true,
     },
+
     -- / Git wrapper /
     {
     'tanvirtin/vgit.nvim',
@@ -97,6 +99,23 @@ require("lazy").setup({
     config = function() require("vgit").setup() end,
     },
 
+    -- Lush... Set up later
+    --{
+    	--"rktjmp/lush.nvim",
+    -- if you wish to use your own colorscheme:
+    -- { dir = '/absolute/path/to/colorscheme', lazy = true },
+    --},
+    
+    -- Pixel.nvim might be better for now
+    {
+  "bjarneo/pixel.nvim",
+  priority = 1000,
+  config = function()
+    vim.cmd.colorscheme("pixel")
+  end,
+},
+-- now to figure out how to set up transparency
+
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
@@ -104,3 +123,45 @@ require("lazy").setup({
   -- automatically check for plugin updates
   checker = { enabled = true },
 })
+
+--
+-- Start of transparency shim
+
+-- Function to apply transparency settings globally
+local function set_transparency()
+vim.cmd([[
+hi Normal guibg=NONE ctermbg=NONE
+hi NormalNC guibg=NONE ctermbg=NONE
+hi SignColumn guibg=NONE ctermbg=NONE
+hi StatusLine guibg=NONE ctermbg=NONE
+hi StatusLineNC guibg=NONE ctermbg=NONE
+hi VertSplit guibg=NONE ctermbg=NONE
+hi TabLine guibg=NONE ctermbg=NONE
+hi TabLineFill guibg=NONE ctermbg=NONE
+hi TabLineSel guibg=NONE ctermbg=NONE
+hi Pmenu guibg=NONE ctermbg=NONE
+hi PmenuSel guibg=NONE ctermbg=NONE
+hi NeoTreeNormal guibg=NONE ctermbg=NONE
+hi NeoTreeNormalNC guibg=NONE ctermbg=NONE
+hi NeoTreeWinSeparator guibg=NONE ctermbg=NONE
+]])
+end
+
+-- Apply transparency settings initially
+set_transparency()
+
+-- Set up neo-tree with default settings and no custom mappings
+--require('neo-tree').setup({
+--window = {
+-- Use default settings with no custom mappings
+--},
+--})
+
+-- Reapply transparency on buffer enter
+vim.api.nvim_create_autocmd("BufEnter", {
+pattern = "*",
+callback = set_transparency,
+})
+
+--
+-- End of transparency shim
