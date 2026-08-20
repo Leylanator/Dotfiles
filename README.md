@@ -8,3 +8,7 @@ Config files may require dependencies to work as intended. I will assume that th
 There is also a chance that styling elements, such as font or shape sizes, may not scale well automatically. I encourage a tinker to get it right on your screen. These are dotfiles which are, of course, duplicated from my usecases. Monitor resolution and size - or even just preference - may differ.
 
 Happy dotfiling!
+
+---
+Migrated to Codeberg
+https://codeberg.org/leylanator/Dotfiles-L
